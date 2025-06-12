@@ -96,4 +96,21 @@ public class AppointmentController {
                     .body("Error fetching pet's appointments: " + e.getMessage());
         }
     }
+
+    @PutMapping("/{appointmentId}")
+    public ResponseEntity<?> updateAppointment(
+            @PathVariable Long appointmentId,
+            @RequestBody AppointmentRequestDTO updatedAppointmentDTO) {
+        try {
+            Appointment updatedAppointment = appointmentService.updateAppointment(appointmentId, updatedAppointmentDTO);
+            return ResponseEntity.ok(updatedAppointment);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Appointment not found or could not be updated: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Unexpected error: " + e.getMessage());
+        }
+    }
+
 }
