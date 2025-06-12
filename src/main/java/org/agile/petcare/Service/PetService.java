@@ -30,17 +30,40 @@ public class PetService {
 
     public Pet updatePet(Long id, Pet petDetails) {
         return petRepository.findById(id).map(pet -> {
-            pet.setPetName(petDetails.getPetName());
-            pet.setPetSpecies(petDetails.getPetSpecies());
-            pet.setPetBreed(petDetails.getPetBreed());
-            pet.setPetDob(petDetails.getPetDob());
-            pet.setPetGender(petDetails.getPetGender());
-            pet.setPetMicrochipId(petDetails.getPetMicrochipId());
-            pet.setProfilePicture(petDetails.getProfilePicture());
-            pet.setMedicalHistory(petDetails.getMedicalHistory());
+            if (petDetails.getPetName() != null) {
+                pet.setPetName(petDetails.getPetName());
+            }
+            if (petDetails.getPetSpecies() != null) {
+                pet.setPetSpecies(petDetails.getPetSpecies());
+            }
+            if (petDetails.getPetBreed() != null) {
+                pet.setPetBreed(petDetails.getPetBreed());
+            }
+            if (petDetails.getPetDob() != null) {
+                pet.setPetDob(petDetails.getPetDob());
+            }
+            if (petDetails.getPetGender() != null) {
+                pet.setPetGender(petDetails.getPetGender());
+            }
+            if (petDetails.getPetMicrochipId() != null) {
+                pet.setPetMicrochipId(petDetails.getPetMicrochipId());
+            }
+            if (petDetails.getProfilePicture() != null) {
+                pet.setProfilePicture(petDetails.getProfilePicture());
+            }
+            if (petDetails.getMedicalHistory() != null) {
+                pet.setMedicalHistory(petDetails.getMedicalHistory());
+            }
+            if (petDetails.getOwner() != null && petDetails.getOwner().getId() != null) {
+                pet.setOwner(petDetails.getOwner());
+            }
+            if (petDetails.getVet() != null && petDetails.getVet().getId() != null) {
+                pet.setVet(petDetails.getVet());
+            }
             return petRepository.save(pet);
         }).orElseThrow(() -> new RuntimeException("Pet not found with id: " + id));
     }
+
 
     public void deletePet(Long id) {
         petRepository.deleteById(id);

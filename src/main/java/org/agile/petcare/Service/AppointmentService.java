@@ -72,6 +72,12 @@ public class AppointmentService {
         return appointmentRepository.findAll();
     }
 
+    public Appointment getAppointmentById(Long appointmentId) {
+        return appointmentRepository.findById(appointmentId)
+                .orElseThrow(() -> new RuntimeException("Appointment not found with ID: " + appointmentId));
+    }
+
+
     public List<Appointment> getAppointmentsByOwner(Long ownerId) {
         return appointmentRepository.findByOwnerId(ownerId);
     }
