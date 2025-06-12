@@ -19,11 +19,11 @@ public class Vet {
     private String bio;
     private String status;
 
-    @OneToMany(mappedBy = "vet", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "vet")
     @JsonIgnore
     private List<Pet> pets;
 
-    @OneToMany(mappedBy = "vet", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "vet")
     @JsonIgnore
     private List<Appointment> appointments;
 }
