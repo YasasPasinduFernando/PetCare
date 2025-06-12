@@ -19,11 +19,11 @@ public class Vet {
     private String bio;
     private String status;
 
-    @OneToMany(mappedBy = "vet", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "vet")
     @JsonIgnore
     private List<Pet> pets;
 
-    @OneToMany(mappedBy = "vet", cascade = CascadeType.ALL)
-    @JsonIgnore
-    private List<Appointment> appointments;
+    @ManyToOne(optional = true) // This is correct
+    @JoinColumn(name = "vet_id", nullable = true)
+    private Vet vet;
 }
