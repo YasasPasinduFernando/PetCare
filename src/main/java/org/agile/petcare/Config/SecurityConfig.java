@@ -13,7 +13,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable()) // Disable CSRF for simplicity (not for production)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/owners/**").permitAll() // ✅ Allow public access
+                        .requestMatchers("/api/**").permitAll() // ✅ Allow public access
                         .anyRequest().authenticated() // 🔐 Everything else requires auth
                 )
                 .httpBasic(); // Enable basic auth

@@ -7,6 +7,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OwnerService {
@@ -36,10 +37,10 @@ public class OwnerService {
     }
 
     // ✅ Get a single owner by ID
-    public Owner getOwnerById(Long id) {
-        return ownerRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Owner not found"));
+    public Optional<Owner> getOwnerById(Long id) {
+        return ownerRepository.findById(id);
     }
+
 
     // ✅ Delete an owner by ID
     public void deleteOwner(Long id) {
