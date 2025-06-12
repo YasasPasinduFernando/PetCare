@@ -19,6 +19,6 @@ public class SecurityConfig {
                 .httpBasic(); // Enable basic auth
 
         return http.build();
-        //aaa
+        //aaada
     }
 }
