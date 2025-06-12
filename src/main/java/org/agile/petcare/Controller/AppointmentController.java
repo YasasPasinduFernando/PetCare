@@ -34,18 +34,18 @@ public class AppointmentController {
     // ✅ Get appointments by owner ID
     @GetMapping("/owner/{ownerId}")
     public List<Appointment> getAppointmentsByOwner(@PathVariable Long ownerId) {
-        return AppointmentService.getAppointmentsByOwner(ownerId);
+        return appointmentService.getAppointmentsByOwner(ownerId);
     }
 
     // ✅ Get appointments by vet ID
     @GetMapping("/vet/{vetId}")
     public List<Appointment> getAppointmentsByVet(@PathVariable Long vetId) {
-        return AppointmentService.getAppointmentsByVet(vetId);
+        return appointmentService.getAppointmentsByVet(vetId);
     }
 
     // ✅ Get appointments by pet ID
     @GetMapping("/pet/{petId}")
     public List<Appointment> getAppointmentsByPet(@PathVariable Long petId) {
-        return AppointmentService.getAppointmentsByPet(petId);
+        return appointmentService.getAppointmentsByPet(petId);
     }
 }
