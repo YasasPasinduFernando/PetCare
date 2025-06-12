@@ -92,35 +92,47 @@ public class AppointmentService {
     }
 
     public Appointment updateAppointment(Long appointmentId, AppointmentRequestDTO dto) {
-        Appointment appointment = appointmentRepository.findById(appointmentId)
-                .orElseThrow(() -> new RuntimeException("Appointment not found"));
+        try {
+            Appointment appointment = appointmentRepository.findById(appointmentId)
+                    .orElseThrow(() -> new IllegalArgumentException("Appointment not found with ID: " + appointmentId));
 
-        appointment.setAppointmentDate(dto.getAppointmentDate());
-        appointment.setAppointmentTime(dto.getAppointmentTime());
-        appointment.setReason(dto.getReason());
-        appointment.setStatus(dto.getStatus());
+            appointment.setAppointmentDate(dto.getAppointmentDate());
+            appointment.setAppointmentTime(dto.getAppointmentTime());
+            appointment.setReason(dto.getReason());
+            appointment.setStatus(dto.getStatus());
 
-        // Optionally update Pet, Vet, and Owner if their IDs are present
-        if (dto.getPetId() != null) {
-            Pet pet = petRepository.findById(dto.getPetId())
-                    .orElseThrow(() -> new RuntimeException("Pet not found"));
-            appointment.setPet(pet);
+            // Update Pet
+            if (dto.getPetId() != null) {
+                Pet pet = petRepository.findById(dto.getPetId())
+                        .orElseThrow(() -> new IllegalArgumentException("Pet not found with ID: " + dto.getPetId()));
+                appointment.setPet(pet);
+            }
+
+            // Update Vet (optional)
+            if (dto.getVetId() != null) {
+                Vet vet = vetRepository.findById(dto.getVetId())
+                        .orElse(null); // It's okay if vet is null
+                appointment.setVet(vet);
+            } else {
+                appointment.setVet(null); // clear vet if not provided
+            }
+
+            // Update Owner
+            if (dto.getOwnerId() != null) {
+                Owner owner = ownerRepository.findById(dto.getOwnerId())
+                        .orElseThrow(() -> new IllegalArgumentException("Owner not found with ID: " + dto.getOwnerId()));
+                appointment.setOwner(owner);
+            }
+
+            return appointmentRepository.save(appointment);
+
+        } catch (IllegalArgumentException e) {
+            throw e; // Re-throw for controller to catch and return 400
+        } catch (Exception e) {
+            throw new RuntimeException("Unexpected error while updating appointment: " + e.getMessage(), e);
         }
-
-        if (dto.getVetId() != null) {
-            Vet vet = vetRepository.findById(dto.getVetId())
-                    .orElse(null); // optional, can be null
-            appointment.setVet(vet);
-        }
-
-        if (dto.getOwnerId() != null) {
-            Owner owner = ownerRepository.findById(dto.getOwnerId())
-                    .orElseThrow(() -> new RuntimeException("Owner not found"));
-            appointment.setOwner(owner);
-        }
-
-        return appointmentRepository.save(appointment);
     }
+
 
 
 }
