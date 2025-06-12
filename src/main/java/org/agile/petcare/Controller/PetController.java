@@ -86,15 +86,38 @@ public class PetController {
     @PutMapping("/{id}")
     public ResponseEntity<?> updatePet(@PathVariable Long id, @RequestBody Pet petDetails) {
         try {
-            Pet updatedPet = petService.updatePet(id, petDetails);
+            Pet existingPet = petService.getPetById(id)
+                    .orElseThrow(() -> new RuntimeException("Pet not found with id: " + id));
+
+            // Check and update fields only if they are not null
+            if (petDetails.getPetName() != null) existingPet.setPetName(petDetails.getPetName());
+            if (petDetails.getPetSpecies() != null) existingPet.setPetSpecies(petDetails.getPetSpecies());
+            if (petDetails.getPetBreed() != null) existingPet.setPetBreed(petDetails.getPetBreed());
+            if (petDetails.getPetDob() != null) existingPet.setPetDob(petDetails.getPetDob());
+            if (petDetails.getPetGender() != null) existingPet.setPetGender(petDetails.getPetGender());
+            if (petDetails.getPetMicrochipId() != null) existingPet.setPetMicrochipId(petDetails.getPetMicrochipId());
+            if (petDetails.getProfilePicture() != null) existingPet.setProfilePicture(petDetails.getProfilePicture());
+            if (petDetails.getMedicalHistory() != null) existingPet.setMedicalHistory(petDetails.getMedicalHistory());
+
+            // Owner and Vet are optional, update if provided
+            if (petDetails.getOwner() != null && petDetails.getOwner().getId() != null) {
+                existingPet.setOwner(petDetails.getOwner());
+            }
+            if (petDetails.getVet() != null && petDetails.getVet().getId() != null) {
+                existingPet.setVet(petDetails.getVet());
+            }
+
+            Pet updatedPet = petService.savePet(existingPet);
             PetResponseDTO responseDTO = petService.mapToPetResponseDTO(updatedPet);
             return ResponseEntity.ok(responseDTO);
+
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body("Error updating Pet: " + e.getMessage());
         }
     }
+
 
     @GetMapping("/owner/{ownerId}")
     public ResponseEntity<?> getPetsByOwnerId(@PathVariable Long ownerId) {
