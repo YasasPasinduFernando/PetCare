@@ -43,6 +43,24 @@ public class AppointmentController {
         }
     }
 
+    // ✅ Get appointment by Appointment ID
+    @GetMapping("/{appointmentId}")
+    public ResponseEntity<?> getAppointmentById(@PathVariable Long appointmentId) {
+        try {
+            Appointment appointment = appointmentService.getAppointmentById(appointmentId);
+            if (appointment != null) {
+                return ResponseEntity.ok(appointment);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("Appointment not found with ID: " + appointmentId);
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error fetching appointment: " + e.getMessage());
+        }
+    }
+
+
     // ✅ Get appointments by owner ID
     @GetMapping("/owner/{ownerId}")
     public ResponseEntity<?> getAppointmentsByOwner(@PathVariable Long ownerId) {
