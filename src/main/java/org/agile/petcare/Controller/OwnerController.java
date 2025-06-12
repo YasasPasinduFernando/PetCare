@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/owners")
+@CrossOrigin
 public class OwnerController {
 
     @Autowired
