@@ -45,4 +45,16 @@ public class OwnerService {
     public void deleteOwner(Long id) {
         ownerRepository.deleteById(id);
     }
+
+    public Owner loginOwner(String email, String rawPassword) {
+        Owner owner = ownerRepository.findByEmailAddress(email)
+                .orElseThrow(() -> new RuntimeException("Invalid email or password"));
+
+        if (!passwordEncoder.matches(rawPassword, owner.getPassword())) {
+            throw new RuntimeException("Invalid email or password");
+        }
+
+        return owner; // Or return a token/session if needed
+    }
+
 }

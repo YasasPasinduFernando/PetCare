@@ -1,5 +1,6 @@
 package org.agile.petcare.Controller;
 
+import org.agile.petcare.Dto.LoginRequest;
 import org.agile.petcare.Model.Owner;
 import org.agile.petcare.Service.OwnerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,5 +33,11 @@ public class OwnerController {
     @DeleteMapping("/{id}")
     public void deleteOwner(@PathVariable Long id) {
         ownerService.deleteOwner(id);
+    }
+
+
+    @PostMapping("/login")
+    public Owner login(@RequestBody LoginRequest loginRequest) {
+        return ownerService.loginOwner(loginRequest.getEmailAddress(), loginRequest.getPassword());
     }
 }
