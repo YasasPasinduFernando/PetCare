@@ -90,4 +90,37 @@ public class AppointmentService {
     public List<Appointment> getAppointmentsByPet(Long petId) {
         return appointmentRepository.findByPetId(petId);
     }
+
+    public Appointment updateAppointment(Long appointmentId, AppointmentRequestDTO dto) {
+        Appointment appointment = appointmentRepository.findById(appointmentId)
+                .orElseThrow(() -> new RuntimeException("Appointment not found"));
+
+        appointment.setAppointmentDate(dto.getAppointmentDate());
+        appointment.setAppointmentTime(dto.getAppointmentTime());
+        appointment.setReason(dto.getReason());
+        appointment.setStatus(dto.getStatus());
+
+        // Optionally update Pet, Vet, and Owner if their IDs are present
+        if (dto.getPetId() != null) {
+            Pet pet = petRepository.findById(dto.getPetId())
+                    .orElseThrow(() -> new RuntimeException("Pet not found"));
+            appointment.setPet(pet);
+        }
+
+        if (dto.getVetId() != null) {
+            Vet vet = vetRepository.findById(dto.getVetId())
+                    .orElse(null); // optional, can be null
+            appointment.setVet(vet);
+        }
+
+        if (dto.getOwnerId() != null) {
+            Owner owner = ownerRepository.findById(dto.getOwnerId())
+                    .orElseThrow(() -> new RuntimeException("Owner not found"));
+            appointment.setOwner(owner);
+        }
+
+        return appointmentRepository.save(appointment);
+    }
+
+
 }
