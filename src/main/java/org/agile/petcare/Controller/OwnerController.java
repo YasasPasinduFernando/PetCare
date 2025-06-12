@@ -39,6 +39,7 @@ public class OwnerController {
 
     @PostMapping("/login")
     public Owner login(@RequestBody LoginRequest loginRequest) {
-        return ownerService.loginOwner(loginRequest.getEmailAddress(), loginRequest.getPassword());
+        System.out.println("Login request received: " + loginRequest);
+        return ownerService.loginOwner(loginRequest.getEmail(), loginRequest.getPassword());
     }
 }
