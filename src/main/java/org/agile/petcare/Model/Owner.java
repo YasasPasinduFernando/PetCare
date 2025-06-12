@@ -3,6 +3,8 @@ package org.agile.petcare.Model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Entity
 @Data
 public class Owner {
@@ -16,6 +18,10 @@ public class Owner {
     private Integer phone;
     private String username;
     private String password;
+
+    @OneToMany(mappedBy = "owner")
+    private List<Pet> pets;
+
 
 
 }
