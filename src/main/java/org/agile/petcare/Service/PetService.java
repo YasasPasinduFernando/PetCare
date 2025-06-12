@@ -1,5 +1,7 @@
 package org.agile.petcare.Service;
 
+import org.agile.petcare.Dto.OwnerResponseDTO;
+import org.agile.petcare.Dto.PetResponseDTO;
 import org.agile.petcare.Model.Pet;
 import org.agile.petcare.Repository.PetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,5 +44,28 @@ public class PetService {
 
     public void deletePet(Long id) {
         petRepository.deleteById(id);
+    }
+
+    public PetResponseDTO mapToPetResponseDTO(Pet pet) {
+        PetResponseDTO dto = new PetResponseDTO();
+        dto.setId(pet.getId());
+        dto.setPetName(pet.getPetName());
+        dto.setPetSpecies(pet.getPetSpecies());
+        dto.setPetBreed(pet.getPetBreed());
+        dto.setPetDob(pet.getPetDob());
+        dto.setPetGender(pet.getPetGender());
+        dto.setPetMicrochipId(pet.getPetMicrochipId());
+        dto.setProfilePicture(pet.getProfilePicture());
+        dto.setMedicalHistory(pet.getMedicalHistory());
+
+        OwnerResponseDTO ownerDTO = new OwnerResponseDTO();
+        ownerDTO.setId(pet.getOwner().getId());
+        ownerDTO.setFname(pet.getOwner().getFullName());
+        ownerDTO.setEmail(pet.getOwner().getEmailAddress());
+        ownerDTO.setPhone(pet.getOwner().getPhoneNumber());
+        ownerDTO.setUsername(pet.getOwner().getUsername());
+
+        dto.setOwner(ownerDTO);
+        return dto;
     }
 }
