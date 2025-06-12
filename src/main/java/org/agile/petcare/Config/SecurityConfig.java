@@ -14,6 +14,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // Disable CSRF for simplicity (not for production)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/**").permitAll() // ✅ Allow public access
+                        .requestMatchers("/actuator/**").permitAll() // ✅ Allow public access to Actuator endpoints
                         .anyRequest().permitAll() // 🔐 Everything else requires auth
                 )
                 .httpBasic(); // Enable basic auth
