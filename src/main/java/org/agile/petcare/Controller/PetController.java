@@ -96,6 +96,20 @@ public class PetController {
         }
     }
 
+    @GetMapping("/owner/{ownerId}")
+    public ResponseEntity<?> getPetsByOwnerId(@PathVariable Long ownerId) {
+        try {
+            List<Pet> pets = petService.getPetsByOwnerId(ownerId);
+            List<PetResponseDTO> petResponseDTOs = pets.stream()
+                    .map(petService::mapToPetResponseDTO)
+                    .collect(Collectors.toList());
+            return ResponseEntity.ok(petResponseDTOs);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body("Error fetching pets: " + e.getMessage());
+        }
+    }
+
+
     // Delete Pet
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletePet(@PathVariable Long id) {

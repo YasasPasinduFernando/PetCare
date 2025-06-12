@@ -45,6 +45,10 @@ public class PetService {
     public void deletePet(Long id) {
         petRepository.deleteById(id);
     }
+    public List<Pet> getPetsByOwnerId(Long ownerId) {
+        return petRepository.findByOwnerId(ownerId);
+    }
+
 
     public PetResponseDTO mapToPetResponseDTO(Pet pet) {
         PetResponseDTO dto = new PetResponseDTO();

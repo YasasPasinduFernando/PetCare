@@ -1,5 +1,6 @@
 package org.agile.petcare.Service;
 
+import org.agile.petcare.Dto.OwnerResponseDTO;
 import org.agile.petcare.Model.Owner;
 import org.agile.petcare.Repository.OwnerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +47,18 @@ public class OwnerService {
     public void deleteOwner(Long id) {
         ownerRepository.deleteById(id);
     }
+
+    public OwnerResponseDTO mapToOwnerResponseDTO(Owner owner) {
+        OwnerResponseDTO dto = new OwnerResponseDTO();
+        dto.setId(owner.getId());
+        dto.setFname(owner.getFullName());
+        dto.setEmail(owner.getEmailAddress());
+        dto.setPhone(owner.getPhoneNumber());
+        dto.setUsername(owner.getUsername());
+        // map other fields as necessary
+        return dto;
+    }
+
 
     public Owner loginOwner(String email, String rawPassword) {
         Owner owner = ownerRepository.findByEmailAddress(email)

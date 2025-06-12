@@ -23,8 +23,8 @@ public class Appointment {
     @JoinColumn(name = "pet_id")
     private Pet pet;
 
-    @ManyToOne
-    @JoinColumn(name = "vet_id")
+    @ManyToOne(optional = true) // ✅ Vet is optional now
+    @JoinColumn(name = "vet_id", nullable = true) // can be null in DB
     private Vet vet;
 
     @ManyToOne
