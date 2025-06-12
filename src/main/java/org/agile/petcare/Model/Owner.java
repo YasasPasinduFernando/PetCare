@@ -10,10 +10,10 @@ public class Owner {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String fname;
-    private Integer age;
-    private String email;
-    private Integer phone;
+    private String fullName;
+    @Column(nullable = false, unique = true)
+    private String emailAddress;
+    private String phoneNumber;
     private String username;
     private String password;
 

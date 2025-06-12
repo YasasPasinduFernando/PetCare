@@ -1,10 +1,10 @@
 package org.agile.petcare.Repository;
 
 import org.agile.petcare.Model.Owner;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Optional;
 
-@Repository
-public class OwnerRepository {
-    public void save(Owner owner) {
-    }
+public interface OwnerRepository extends JpaRepository<Owner, Long> {
+    Optional<Owner> findByEmailAddress(String emailAddress);
+    boolean existsByEmailAddress(String emailAddress);
 }
