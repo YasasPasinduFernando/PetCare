@@ -1,5 +1,6 @@
 package org.agile.petcare.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -14,10 +15,15 @@ public class Vet {
     private Long id;
 
     private String name;
-    private String digree;
+    private String degree; // Corrected spelling
     private String bio;
     private String status;
 
-    @OneToMany(mappedBy = "vet")
+    @OneToMany(mappedBy = "vet", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Pet> pets;
+
+    @OneToMany(mappedBy = "vet", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Appointment> appointments;
 }

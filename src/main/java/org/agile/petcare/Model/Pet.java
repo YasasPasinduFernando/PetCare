@@ -1,8 +1,11 @@
 package org.agile.petcare.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
+
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Data
@@ -17,11 +20,8 @@ public class Pet {
     private String petBreed;
     private LocalDate petDob;
     private String petGender;
-
     private String petMicrochipId;
-
     private String profilePicture;
-
     private String medicalHistory;
 
     @ManyToOne
@@ -32,5 +32,7 @@ public class Pet {
     @JoinColumn(name = "vet_id")
     private Vet vet;
 
-
+    @OneToMany(mappedBy = "pet", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<Appointment> appointments;
 }
